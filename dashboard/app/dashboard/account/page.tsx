@@ -48,8 +48,8 @@ export default function AccountPage() {
       fetch('https://hook.us2.make.com/6awp25myoa45rzxk47hy1nrg3akd2hem', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({...updates, email: user.email})
-      })
+        body: JSON.stringify(Object.assign({}, updates, { email: user.email }))
+      }).then(r => r.text()).then(t => console.log('webhook:', t))
     }
   }
 
