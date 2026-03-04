@@ -42,7 +42,15 @@ export default function AccountPage() {
     EDITABLE.forEach(f => { updates[f.key] = tenant?.[f.key] ?? null })
     const { error: err } = await supabase.from('tenants').update(updates).eq('email', user.email??'')
     setSaving(false)
-    if (err) { setError(err.message) } else { setSaved(true); setTimeout(()=>setSaved(false),3000) }
+    if (err) { setError(err.message) } else {
+      setSaved(true)
+      setTimeout(()=>setSaved(false),3000)
+      fetch('https://hook.us2.make.com/6awp25myoa45rzxk47hy1nrg3akd2hem', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({...updates, email: user.email})
+      })
+    }
   }
 
   const set = (k: string, v: string) => setTenant((t:any) => ({...t,[k]:v}))
