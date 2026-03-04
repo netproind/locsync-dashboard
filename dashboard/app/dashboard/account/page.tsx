@@ -48,7 +48,7 @@ export default function AccountPage() {
       fetch('https://hook.us2.make.com/6awp25myoa45rzxk47hy1nrg3akd2hem', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(Object.assign({}, updates, { email: user.email }))
+        body: JSON.stringify({ salon_name: tenant?.salon_name, address: tenant?.address, website_url: tenant?.website_url, instagram: tenant?.instagram, logo_url: tenant?.logo_url, booking_system: tenant?.booking_system, years_experience: tenant?.years_experience, local_vibe: tenant?.local_vibe, directions_link: tenant?.directions_link, review_link: tenant?.review_link, email: user.email, airtable_record_id: tenant?.airtable_record_id })
       }).then(r => r.text()).then(t => console.log('webhook:', t))
     }
   }
