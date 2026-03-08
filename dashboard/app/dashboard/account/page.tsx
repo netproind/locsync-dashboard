@@ -48,7 +48,7 @@ export default function AccountPage() {
       fetch('https://hook.us2.make.com/6awp25myoa45rzxk47hy1nrg3akd2hem', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...tenant, email: user.email })
+        body: JSON.stringify({ test: 'hello', email: user.email, airtable_id: tenant?.airtable_record_id, salon: tenant?.salon_name })
       }).then(r => r.text()).then(t => console.log('webhook:', t))
     }
   }
