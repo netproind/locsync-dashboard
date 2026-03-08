@@ -45,7 +45,7 @@ export default function AccountPage() {
     if (err) { setError(err.message) } else {
       setSaved(true)
       setTimeout(()=>setSaved(false),3000)
-      fetch('https://hook.us2.make.com/6awp25myoa45rzxk47hy1nrg3akd2hem', {
+      fetch('https://hook.us2.make.com/g3ye50nir54f1ps7cf7xh7ifpor32lys', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ test: 'hello', email: user.email, airtable_id: tenant?.airtable_record_id, salon: tenant?.salon_name })
