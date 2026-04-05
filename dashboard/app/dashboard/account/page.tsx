@@ -45,11 +45,11 @@ export default function AccountPage() {
     if (err) { setError(err.message) } else {
       setSaved(true)
       setTimeout(()=>setSaved(false),3000)
-      fetch('https://hook.us2.make.com/g3ye50nir54f1ps7cf7xh7ifpor32lys', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...tenant, email: user.email })
-      }).then(r => r.text()).then(t => console.log('webhook:', t))
+      fetch('/api/sync-to-make', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({ ...tenant, email: user.email })
+}).then(r => r.text()).then(t => console.log('webhook:', t))
     }
   }
 
