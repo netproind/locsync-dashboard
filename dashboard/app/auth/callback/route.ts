@@ -14,5 +14,5 @@ export async function GET(request: Request) {
     }
   }
 
-  return NextResponse.redirect(`${origin}/login?error=auth`)
+  return NextResponse.redirect(`https://locsync-dashboard.onrender.com/login?error=auth`)
 }
