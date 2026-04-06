@@ -48,7 +48,7 @@ export default function AccountPage() {
       fetch('/api/sync-to-make', {
   method: 'POST',
   headers: { 'Content-Type': 'application/json' },
-  body: JSON.stringify({ ...tenant, email: user.email })
+body: JSON.stringify({ ...tenant, ...updates, email: user.email })
 }).then(r => r.text()).then(t => console.log('webhook:', t))
     }
   }
