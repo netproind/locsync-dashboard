@@ -1,21 +1,25 @@
-import { createClient } from '@/utils/supabase/server'
-import { redirect } from 'next/navigation'
+'use client'
 
-export const revalidate = 0
-export default async function DashboardPage() {
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
-  if (!user) redirect('/login')
+import { useState, useEffect } from 'react'
+import { createClient } from '@/utils/supabase/client'
 
-  const { data: tenant } = await supabase
-    .from('tenants')
-    .select('loctician_name, salon_name, tenant_id, tenant_status, membership_type, assigned_phone_number, bot_phone, trial_end_date, logo_url, gmb_rating, created_at, bot_active, twilio_configured, booking_url')
-    .eq('email', user.email ?? '')
-    .single()
+export default function DashboardPage() {
+  const [tenant, setTenant] = useState<any>(null)
+  const supabase = createClient()
+
+  useEffect(() => {
+    async function load() {
+      const { data: { user } } = await supabase.auth.getUser()
+      if (!user) { window.location.href = '/login'; return }
+      const { data } = await supabase.from('tenants').select('loctician_name, salon_name, tenant_id, tenant_status, membership_type, assigned_phone_number, bot_phone, trial_end_date, logo_url, gmb_rating, created_at, bot_active, twilio_configured, booking_url').eq('email', user.email ?? '').single()
+      if (data) setTenant(data)
+    }
+    load()
+  }, [])
 
   const trialEnd = tenant?.trial_end_date ? new Date(tenant.trial_end_date) : null
   const daysLeft = trialEnd ? Math.max(0, Math.ceil((trialEnd.getTime() - new Date().getTime()) / (1000*60*60*24))) : 7
-  const displayName = tenant?.loctician_name ?? user.email?.split('@')[0] ?? 'there'
+  const displayName = tenant?.loctician_name ?? 'manager'
   const isActive = tenant?.tenant_status === 'active'
 
   return (
