@@ -13,14 +13,13 @@ export default function DashboardPage() {
       if (!user) { window.location.href = '/login'; return }
       const { data } = await supabase.from('tenants').select('loctician_name, salon_name, tenant_id, tenant_status, membership_type, assigned_phone_number, bot_phone, trial_end_date, logo_url, gmb_rating, created_at, bot_active, twilio_configured, booking_url').eq('email', user.email ?? '').single()
       if (data) setTenant(data)
-      else console.log('No tenant found for email:', user.email)
     }
     load()
   }, [])
 
   const trialEnd = tenant?.trial_end_date ? new Date(tenant.trial_end_date) : null
   const daysLeft = trialEnd ? Math.max(0, Math.ceil((trialEnd.getTime() - new Date().getTime()) / (1000*60*60*24))) : 7
-  const displayName = tenant?.loctician_name ?? 'manager'
+  const displayName = tenant?.loctician_name ?? 'NO TENANT FOUND'
   const isActive = tenant?.tenant_status === 'active'
 
   return (
