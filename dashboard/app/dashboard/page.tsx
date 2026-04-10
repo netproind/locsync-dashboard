@@ -5,17 +5,22 @@ import { createClient } from '@/utils/supabase/client'
 
 export default function DashboardPage() {
   const [tenant, setTenant] = useState<any>(null)
-  const supabase = createClient()
 
   useEffect(() => {
-    async function load() {
-      const { data: { user } } = await supabase.auth.getUser()
-      if (!user) { window.location.href = '/login'; return }
-      const { data } = await supabase.from('tenants').select('loctician_name, salon_name, tenant_id, tenant_status, membership_type, assigned_phone_number, bot_phone, trial_end_date, logo_url, gmb_rating, created_at, bot_active, twilio_configured, booking_url').eq('email', user.email ?? '').single()
-      if (data) setTenant(data)
-    }
-    load()
-  }, [])
+  async function load() {
+    const supabase = createClient()
+    const { data: { user } } = await supabase.auth.getUser()
+    if (!user) { window.location.href = '/login'; return }
+    const { data } = await supabase
+      .from('tenants')
+      .select('loctician_name, salon_name, tenant_id, tenant_status, membership_type, assigned_phone_number, bot_phone, trial_end_date, logo_url, gmb_rating, created_at, bot_active, twilio_configured, booking_url')
+      .eq('email', user.email ?? '')
+      .single()
+    if (data) setTenant(data)
+    else console.log('tenant null, user email:', user.email)
+  }
+  load()
+}, [])
 
   const trialEnd = tenant?.trial_end_date ? new Date(tenant.trial_end_date) : null
   const daysLeft = trialEnd ? Math.max(0, Math.ceil((trialEnd.getTime() - new Date().getTime()) / (1000*60*60*24))) : 7
