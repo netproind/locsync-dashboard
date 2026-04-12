@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import { createClient } from '@/utils/supabase/client'
 
 export default function DashboardPage() {
-  const [tenant, setTenant] = useState<any>(null)style?
+  const [tenant, setTenant] = useState<any>(null)
   const [err, setErr] = useState<any>(null)
 
   useEffect(() => {
