@@ -11,7 +11,7 @@ export default async function BillingPage() {
     .eq('email', user?.email ?? '')
     .maybeSingle()
 
-  const trialEnd = tenant?.trial_end_date ? new Date(tenant.trial_end_date) : null
+  const trialEnd = tenant?.trial_expires_at ? new Date(tenant.trial_expires_at) : null
   const daysLeft = trialEnd ? Math.max(0, Math.ceil((trialEnd.getTime() - new Date().getTime()) / (1000*60*60*24))) : 7
   const trialPercent = Math.round(((7 - daysLeft) / 7) * 100)
   const isTrial = !tenant?.tenant_status || 
