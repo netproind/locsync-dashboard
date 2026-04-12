@@ -7,9 +7,9 @@ export default async function BillingPage() {
 
   const { data: tenant } = await supabase
     .from('tenants')
-    .select('loctician_name, salon_name, tenant_id, tenant_status, membership_type, monthly_fee, payment_status, payment_date, last_payment_date, next_billing_date, trial_start_date, trial_end_date, assigned_phone_number, bot_phone, premium_number, created_at')
+    .select('loctician_name, salon_name, tenant_id, tenant_status, membership_type, monthly_fee, payment_status, payment_date, last_payment_date, next_billing_date, trial_started_at, trial_expires_at, assigned_phone_number, bot_phone, premium_number, created_at')
     .eq('email', user?.email ?? '')
-    .single()
+    .maybeSingle()
 
   const trialEnd = tenant?.trial_end_date ? new Date(tenant.trial_end_date) : null
   const daysLeft = trialEnd ? Math.max(0, Math.ceil((trialEnd.getTime() - new Date().getTime()) / (1000*60*60*24))) : 7
