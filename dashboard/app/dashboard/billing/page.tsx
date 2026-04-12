@@ -1,21 +1,30 @@
-import { createClient } from '@/utils/supabase/server'
+'use client'
 
-export const revalidate = 0
-export default async function BillingPage() {
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+import { useState, useEffect } from 'react'
+import { createClient } from '@/utils/supabase/client'
 
-  const { data: tenant } = await supabase
-    .from('tenants')
-    .select('loctician_name, salon_name, tenant_id, tenant_status, membership_type, monthly_fee, payment_status, payment_date, last_payment_date, next_billing_date, trial_started_at, trial_expires_at, assigned_phone_number, bot_phone, premium_number, created_at')
-    .eq('email', user?.email ?? '')
-    .maybeSingle()
+export default function BillingPage() {
+  const [tenant, setTenant] = useState<any>(null)
+
+  useEffect(() => {
+    async function load() {
+      const supabase = createClient()
+      const { data: { user } } = await supabase.auth.getUser()
+      if (!user) { window.location.href = '/login'; return }
+      const { data } = await supabase
+        .from('tenants')
+        .select('loctician_name, salon_name, tenant_id, tenant_status, membership_type, monthly_fee, payment_status, payment_date, last_payment_date, next_billing_date, trial_started_at, trial_expires_at, assigned_phone_number, bot_phone, premium_number, created_at')
+        .eq('email', user.email)
+        .maybeSingle()
+      if (data) setTenant(data)
+    }
+    load()
+  }, [])
 
   const trialEnd = tenant?.trial_expires_at ? new Date(tenant.trial_expires_at) : null
   const daysLeft = trialEnd ? Math.max(0, Math.ceil((trialEnd.getTime() - new Date().getTime()) / (1000*60*60*24))) : 7
   const trialPercent = Math.round(((7 - daysLeft) / 7) * 100)
-  const isTrial = !tenant?.tenant_status || 
-  tenant.tenant_status.toLowerCase().includes('trial')
+  const isTrial = !tenant?.tenant_status || tenant.tenant_status.toLowerCase().includes('trial')
   const memberSince = tenant?.created_at ? new Date(tenant.created_at).toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'}) : '—'
 
   return (
