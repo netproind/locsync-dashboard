@@ -14,7 +14,7 @@ export default function DashboardPage() {
     if (!user) { window.location.href = '/login'; return }
     const { data, error } = await supabase
   .from('tenants')
-  .select('loctician_name, salon_name, tenant_id, tenant_status, membership_type, assigned_phone_number, bot_phone, trial_end_date, logo_url, gmb_rating, created_at, bot_active, twilio_configured, booking_url')
+  .select('loctician_name, salon_name, tenant_id, tenant_status, membership_type, assigned_phone_number, bot_phone, trial_expires_at, logo_url, gmb_rating, created_at, bot_active, twilio_configured, booking_url')
   .eq('email', user.email)
   .maybeSingle()
 setErr(error)
