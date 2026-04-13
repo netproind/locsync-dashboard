@@ -5,19 +5,17 @@ import { createClient } from '@/utils/supabase/client'
 
 export default function DashboardPage() {
   const [tenant, setTenant] = useState<any>(null)
-  const [err, setErr] = useState<any>(null)
 
   useEffect(() => {
   async function load() {
     const supabase = createClient()
     const { data: { user } } = await supabase.auth.getUser()
     if (!user) { window.location.href = '/login'; return }
-    const { data, error } = await supabase
+    const { data } = await supabase
   .from('tenants')
   .select('loctician_name, salon_name, tenant_id, tenant_status, membership_type, assigned_phone_number, bot_phone, trial_expires_at, logo_url, gmb_rating, created_at, bot_active, twilio_configured, booking_url')
   .eq('email', user.email)
   .maybeSingle()
-setErr(error)
 if (data) setTenant(data)
     else console.log('tenant null, user email:', user.email)
   }
@@ -31,7 +29,6 @@ if (data) setTenant(data)
 
   return (
     <div className="animate-in">
-    <p style={{color:'red'}}>{err?.message ?? 'no error'}</p>
 
       <div style={{display:'flex',alignItems:'flex-start',justifyContent:'space-between',marginBottom:'32px',flexWrap:'wrap',gap:'16px'}}>
         <div style={{display:'flex',alignItems:'center',gap:'16px'}}>
