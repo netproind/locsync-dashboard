@@ -13,7 +13,7 @@ export default function BillingPage() {
       if (!user) { window.location.href = '/login'; return }
       const { data } = await supabase
       .from('tenants')
-      .select('loctician_name, salon_name, tenant_id, tenant_status, membership_type, assigned_phone_number, bot_phone, logo_url, gmb_rating, created_at, bot_active, twilio_configured, booking_url')
+      .select('loctician_name, salon_name, tenant_id, tenant_status, membership_type, assigned_phone_number, trial_started_at, trial_expires_at, bot_phone, logo_url, gmb_rating, created_at, bot_active, twilio_configured, booking_url')
       .eq('email', user.email)
       .maybeSingle()
       if (data) setTenant(data)
