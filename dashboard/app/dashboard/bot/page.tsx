@@ -39,6 +39,19 @@ const POLICIES = [
   { key:'mobile_service_policy', label:'Mobile Service Policy', hint:'Mobile service policy', big:true },
 ]
 
+const AVATARS = [
+  {name:'Gina',url:'https://raw.githubusercontent.com/netproind/locsync-dashboard/main/public/avatar/ai-gina.png'},
+  {name:'Crystal',url:'https://raw.githubusercontent.com/netproind/locsync-dashboard/main/public/avatar/ai-crystal.png'},
+  {name:'Shannon',url:'https://raw.githubusercontent.com/netproind/locsync-dashboard/main/public/avatar/ai-shannon.png'},
+  {name:'Tamika',url:'https://raw.githubusercontent.com/netproind/locsync-dashboard/main/public/avatar/ai-tamika.png'},
+  {name:'Mina',url:'https://raw.githubusercontent.com/netproind/locsync-dashboard/main/public/avatar/ai-mina.png'},
+  {name:'Larissa',url:'https://raw.githubusercontent.com/netproind/locsync-dashboard/main/public/avatar/ai-larissa.png'},
+  {name:'Vicki',url:'https://raw.githubusercontent.com/netproind/locsync-dashboard/main/public/avatar/ai-vicki.png'},
+  {name:'Tasha',url:'https://raw.githubusercontent.com/netproind/locsync-dashboard/main/public/avatar/ai-tasha.png'},
+  {name:'Lisa',url:'https://raw.githubusercontent.com/netproind/locsync-dashboard/main/public/avatar/ai-lisa.png'},
+  {name:'Angie',url:'https://raw.githubusercontent.com/netproind/locsync-dashboard/main/public/avatar/ai-angie.png'},
+]
+
 type Tab = 'config' | 'services' | 'policies'
 
 export default function BotPage() {
@@ -147,21 +160,10 @@ export default function BotPage() {
                 <label style={{fontSize:'12px',fontWeight:500,color:'var(--text-muted)',display:'block',marginBottom:'4px',marginTop:'16px'}}>Choose Bot Avatar</label>
 <p style={{fontSize:'12px',color:'var(--text-muted)',marginBottom:'12px'}}>Select your AI receptionist's personality</p>
 <div style={{display:'grid',gridTemplateColumns:'repeat(5,1fr)',gap:'8px'}}>
-  {[
-    {name:'Gina',url:'https://raw.githubusercontent.com/netproind/locsync-dashboard/main/public/avatar/ai-gina.png'},
-    {name:'Crystal',url:'https://raw.githubusercontent.com/netproind/locsync-dashboard/main/public/avatar/ai-crystal.png'},
-    {name:'Shannon',url:'https://raw.githubusercontent.com/netproind/locsync-dashboard/main/public/avatar/ai-shannon.png'},
-    {name:'Tamika',url:'https://raw.githubusercontent.com/netproind/locsync-dashboard/main/public/avatar/ai-tamika.png'},
-    {name:'Mina',url:'https://raw.githubusercontent.com/netproind/locsync-dashboard/main/public/avatar/ai-mina.png'},
-    {name:'Larissa',url:'https://raw.githubusercontent.com/netproind/locsync-dashboard/main/public/avatar/ai-larissa.png'},
-    {name:'Vicki',url:'https://raw.githubusercontent.com/netproind/locsync-dashboard/main/public/avatar/ai-vicki.png'},
-    {name:'Tasha',url:'https://raw.githubusercontent.com/netproind/locsync-dashboard/main/public/avatar/ai-tasha.png'},
-    {name:'Lisa',url:'https://raw.githubusercontent.com/netproind/locsync-dashboard/main/public/avatar/ai-lisa.png'},
-    {name:'Angie',url:'https://raw.githubusercontent.com/netproind/locsync-dashboard/main/public/avatar/ai-angie.png'},
-  ].map(a=>(
-    <div key={a.name} onClick={()=>set('avatar',a.url)} style={{cursor:'pointer',borderRadius:'10px',overflow:'hidden',border:tenant?.avatar===a.url?'2px solid var(--gold)':'2px solid transparent',opacity:tenant?.avatar&&tenant.avatar!==a.url?0.6:1,transition:'all 0.2s'}}>
+  {AVATARS.map(a=>(
+    <div key={a.name} onClick={()=>set('avatar',a.name)} style={{cursor:'pointer',borderRadius:'10px',overflow:'hidden',border:tenant?.avatar===a.name?'2px solid var(--gold)':'2px solid transparent',opacity:tenant?.avatar&&tenant.avatar!==a.name?0.6:1,transition:'all 0.2s'}}>
       <img src={a.url} alt={a.name} style={{width:'100%',aspectRatio:'1',objectFit:'cover',display:'block'}} />
-      <div style={{textAlign:'center',fontSize:'11px',fontWeight:500,color:tenant?.avatar===a.url?'var(--gold)':'var(--text-muted)',padding:'4px 0',background:'var(--surface2)'}}>{a.name}</div>
+      <div style={{textAlign:'center',fontSize:'11px',fontWeight:500,color:tenant?.avatar===a.name?'var(--gold)':'var(--text-muted)',padding:'4px 0',background:'var(--surface2)'}}>{a.name}</div>
     </div>
   ))}
 </div>
