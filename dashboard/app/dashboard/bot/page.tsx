@@ -144,10 +144,27 @@ export default function BotPage() {
                 <label style={{fontSize:'12px',fontWeight:500,color:'var(--text-muted)',display:'block',marginBottom:'4px'}}>Handoff Phone Number</label>
                 <p style={{fontSize:'12px',color:'var(--text-muted)',marginBottom:'8px'}}>Live number to forward to a human</p>
                 <input style={inp} value={tenant?.handoff_phone??''} onChange={e=>set('handoff_phone',e.target.value)} placeholder="e.g. (313) 555-0000" />
-                <label style={{fontSize:'12px',fontWeight:500,color:'var(--text-muted)',display:'block',marginBottom:'4px',marginTop:'16px'}}>Bot Avatar URL</label>
-                <p style={{fontSize:'12px',color:'var(--text-muted)',marginBottom:'8px'}}>Photo showing bot personality</p>
-                <input style={inp} value={tenant?.avatar??''} onChange={e=>set('avatar',e.target.value)} placeholder="https://..." />
-                {tenant?.avatar && <img src={tenant.avatar} alt="avatar" style={{width:'52px',height:'52px',borderRadius:'50%',objectFit:'cover',border:'2px solid var(--gold)',marginTop:'10px'}} />}
+                <label style={{fontSize:'12px',fontWeight:500,color:'var(--text-muted)',display:'block',marginBottom:'4px',marginTop:'16px'}}>Choose Bot Avatar</label>
+<p style={{fontSize:'12px',color:'var(--text-muted)',marginBottom:'12px'}}>Select your AI receptionist's personality</p>
+<div style={{display:'grid',gridTemplateColumns:'repeat(5,1fr)',gap:'8px'}}>
+  {[
+    {name:'Gina',url:'https://raw.githubusercontent.com/netproind/locsync-dashboard/main/public/avatar/ai-gina.png'},
+    {name:'Crystal',url:'https://raw.githubusercontent.com/netproind/locsync-dashboard/main/public/avatar/ai-crystal.png'},
+    {name:'Shannon',url:'https://raw.githubusercontent.com/netproind/locsync-dashboard/main/public/avatar/ai-shannon.png'},
+    {name:'Tamika',url:'https://raw.githubusercontent.com/netproind/locsync-dashboard/main/public/avatar/ai-tamika.png'},
+    {name:'Mina',url:'https://raw.githubusercontent.com/netproind/locsync-dashboard/main/public/avatar/ai-mina.png'},
+    {name:'Larissa',url:'https://raw.githubusercontent.com/netproind/locsync-dashboard/main/public/avatar/ai-larissa.png'},
+    {name:'Vicki',url:'https://raw.githubusercontent.com/netproind/locsync-dashboard/main/public/avatar/ai-vicki.png'},
+    {name:'Tasha',url:'https://raw.githubusercontent.com/netproind/locsync-dashboard/main/public/avatar/ai-tasha.png'},
+    {name:'Lisa',url:'https://raw.githubusercontent.com/netproind/locsync-dashboard/main/public/avatar/ai-lisa.png'},
+    {name:'Angie',url:'https://raw.githubusercontent.com/netproind/locsync-dashboard/main/public/avatar/ai-angie.png'},
+  ].map(a=>(
+    <div key={a.name} onClick={()=>set('avatar',a.url)} style={{cursor:'pointer',borderRadius:'10px',overflow:'hidden',border:tenant?.avatar===a.url?'2px solid var(--gold)':'2px solid transparent',opacity:tenant?.avatar&&tenant.avatar!==a.url?0.6:1,transition:'all 0.2s'}}>
+      <img src={a.url} alt={a.name} style={{width:'100%',aspectRatio:'1',objectFit:'cover',display:'block'}} />
+      <div style={{textAlign:'center',fontSize:'11px',fontWeight:500,color:tenant?.avatar===a.url?'var(--gold)':'var(--text-muted)',padding:'4px 0',background:'var(--surface2)'}}>{a.name}</div>
+    </div>
+  ))}
+</div>
               </div>
             </div>
           </div>
