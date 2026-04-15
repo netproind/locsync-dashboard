@@ -27,7 +27,7 @@ export default function AccountPage() {
     async function load() {
       const { data: { user } } = await supabase.auth.getUser()
       if (!user) return
-      const { data } = await supabase.from('tenants').select('*').eq('email', user.email??'').single()
+      const { data } = await supabase.from('tenants').select('*').eq('email', user.email??'').maybeSingle()
       if (data) setTenant(data)
     }
     load()
