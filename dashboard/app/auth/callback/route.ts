@@ -10,9 +10,9 @@ export async function GET(request: Request) {
     const supabase = await createClient()
     const { error } = await supabase.auth.exchangeCodeForSession(code)
     if (!error) {
-      return NextResponse.redirect(`https://locsync-dashboard.onrender.com${next}`)
+      return NextResponse.redirect(`https://dashboard.locsync.com${next}`)
     }
   }
 
-  return NextResponse.redirect(`https://locsync-dashboard.onrender.com/login?error=auth`)
+  return NextResponse.redirect(`https://dashboard.locsync.com/login?error=auth`)
 }
