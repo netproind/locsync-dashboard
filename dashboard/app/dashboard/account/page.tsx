@@ -64,7 +64,7 @@ export default function AccountPage() {
           <p style={{fontSize:'14px',color:'var(--text-muted)'}}>Your profile and salon information</p>
         </div>
         <button onClick={handleSave} disabled={saving} style={{background:'var(--gold)',color:'#0a0a0a',border:'none',borderRadius:'8px',padding:'11px 24px',fontSize:'14px',fontWeight:600,cursor:'pointer',fontFamily:'Syne,sans-serif'}}>
-          {saving?'Saving...':saved?'✓ Saved':'Save Changes'}
+          {saving?'Saving...':saved?`✓ ${tenant?.email??'no email'}`:'Save Changes'}
         </button>
       </div>
 
