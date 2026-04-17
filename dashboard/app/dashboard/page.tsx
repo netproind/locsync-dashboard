@@ -24,7 +24,7 @@ if (data) setTenant(data)
 
   const trialEnd = tenant?.trial_end_date ? new Date(tenant.trial_end_date) : null
   const daysLeft = trialEnd ? Math.max(0, Math.ceil((trialEnd.getTime() - new Date().getTime()) / (1000*60*60*24))) : 7
-  const displayName = tenant?.loctician_name ?? 'NO TENANT FOUND'
+  const displayName = tenant?.loctician_name ?? user?.email?.split('@')[0] ?? 'there'
   const isActive = tenant?.tenant_status === 'active'
 
   return (
