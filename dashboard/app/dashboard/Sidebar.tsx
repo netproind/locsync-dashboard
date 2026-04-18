@@ -100,7 +100,7 @@ export default function Sidebar({ userEmail, role }: { userEmail: string; role: 
   return (
     <>
       {/* Mobile top bar */}
-      <div style={s.mobileBar}>
+      <div style={s.mobileBar} className="mobile-top-bar">
         <button onClick={()=>setOpen(true)} style={s.hamburger}>
           <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M3 6h16M3 11h16M3 16h16" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>
         </button>
