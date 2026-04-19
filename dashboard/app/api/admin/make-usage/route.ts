@@ -6,7 +6,7 @@ export async function GET() {
 
   try {
     const res = await fetch(
-      `https://us2.make.com/api/v2/users/me/quota`,
+      `https://us2.make.com/api/v2/scenarios/consumptions?teamId=${MAKE_TEAM_ID}`,
       {
         headers: {
           'Authorization': `Token ${MAKE_API_TOKEN}`,
@@ -15,12 +15,20 @@ export async function GET() {
       }
     )
 
-    if (!res.ok) throw new Error(`Make API error: ${res.status}`)
+    if (!res.ok) {
+      const text = await res.text()
+      console.error('Make API error:', res.status, text)
+      throw new Error(`Make API error: ${res.status}`)
+    }
+
     const data = await res.json()
+    const consumptions = data.scenarioConsumptions ?? []
+    const totalOps = consumptions.reduce((sum: number, s: any) => sum + (s.operations ?? 0), 0)
 
     return NextResponse.json({
-      operations_used: data.quota?.operationsUsed ?? 0,
-      operations_limit: data.quota?.operationsLimit ?? 10000,
+      operations_used: totalOps,
+      operations_limit: 10000,
+      last_reset: data.lastReset ?? null
     })
   } catch (err) {
     console.error('Make usage error:', err)
