@@ -13,11 +13,12 @@ export default function DashboardPage() {
     const { data: { user } } = await supabase.auth.getUser()
     if (!user) { window.location.href = '/login'; return }
     setUser(user)
-   const { data } = await supabase
+   const email = user.email?.replace('+', '%2B') ?? ''
+const { data } = await supabase
   .from('tenants')
-  .select('loctician_name, salon_name, tenant_id, tenant_status, membership_type, assigned_phone_number, bot_phone, trial_expires_at, logo_url, gmb_rating, created_at, bot_status, twilio_configured, booking_url')
-  .filter('email', 'eq', user.email)
-  .maybeSingle() 
+  .select('loctician_name, salon_name, tenant_id, tenant_status, membership_type, assigned_phone_number, bot_phone, trial_expires_at, logo_url, gmb_rating, created_at, twilio_configured, booking_url')
+  .eq('email', email)
+  .maybeSingle()
     
 if (data) setTenant(data)
     else console.log('tenant null, user email:', user.email)
