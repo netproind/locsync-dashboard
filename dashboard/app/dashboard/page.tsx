@@ -24,7 +24,7 @@ if (data) setTenant(data)
   load()
 }, [])
 
-  const trialEnd = tenant?.trial_end_date ? new Date(tenant.trial_end_date) : null
+  const trialEnd = tenant?.trial_expires_at ? new Date(tenant.trial_expires_at) : null
   const daysLeft = trialEnd ? Math.max(0, Math.ceil((trialEnd.getTime() - new Date().getTime()) / (1000*60*60*24))) : 7
   const displayName = tenant?.loctician_name ?? user?.email?.split('@')[0] ?? 'there'
   const isActive = tenant?.tenant_status === 'active'
@@ -51,7 +51,7 @@ if (data) setTenant(data)
         {[
           ['🔑','System ID',tenant?.tenant_id??'—','Your unique account ID'],
           ['⭐','Member Level',tenant?.membership_type??'Temp Plan','Current plan type'],
-          ['📞','Bot Number',tenant?.bot_phone??tenant?.assigned_phone_number??'Pending','Your AI receptionist line'],
+          ['📞','Bot Number',tenant?.assigned_phone_number??tenant?.assigned_phone_number??'Pending','Your AI receptionist line'],
           ['🌟','Google Rating',tenant?.gmb_rating?`${tenant.gmb_rating}★`:'—','From Google Business'],
         ].map(([icon,label,value,sub])=>(
           <div key={label as string} style={{background:'var(--surface)',border:'1px solid var(--border)',borderRadius:'12px',padding:'20px'}}>
