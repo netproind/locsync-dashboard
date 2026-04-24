@@ -9,20 +9,24 @@ export default function DashboardPage() {
 
   useEffect(() => {
   async function load() {
-    const supabase = createClient()
-    const { data: { user } } = await supabase.auth.getUser()
-    if (!user) { window.location.href = '/login'; return }
-    setUser(user)
-   const email = user.email?.replace('+', '%2B') ?? ''
-const { data } = await supabase
-  .from('tenants')
-  .select('loctician_name, salon_name, tenant_id, tenant_status, membership_type, assigned_phone_number, bot_phone, trial_expires_at, logo_url, gmb_rating, created_at, twilio_configured, booking_url')
-  .eq('email', email)
-  .maybeSingle()
-    
-if (data) setTenant(data)
-    else console.log('tenant null, user email:', user.email)
-  }
+  const supabase = createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) { window.location.href = '/login'; return }
+  setUser(user)
+  console.log('USER ID:', user.id)
+  console.log('USER EMAIL:', user.email)
+  
+  const { data, error } = await supabase
+    .from('tenants')
+    .select('*')
+    .eq('user_id', user.id)
+    .maybeSingle()
+  
+  console.log('TENANT DATA:', data)
+  console.log('TENANT ERROR:', error)
+  
+  if (data) setTenant(data)
+}
   load()
 }, [])
 
