@@ -15,7 +15,7 @@ export default function DashboardPage() {
     setUser(user)
     const { data } = await supabase
   .from('tenants')
-  .select('loctician_name, salon_name, tenant_id, tenant_status, membership_type, assigned_phone_number, bot_phone, trial_expires_at, logo_url, gmb_rating, created_at, bot_active, twilio_configured, booking_url')
+  .select('loctician_name, salon_name, tenant_id, tenant_status, membership_type, assigned_phone_number, bot_phone, trial_expires_at, logo_url, gmb_rating, created_at, bot_status, twilio_configured, booking_url')
   .eq('email', user.email)
   .maybeSingle()
 if (data) setTenant(data)
@@ -69,7 +69,7 @@ if (data) setTenant(data)
           {[
             ['Account Status', tenant?.tenant_status??'Trial', isActive],
             ['Member Level', tenant?.membership_type??'Temp Plan', true],
-            ['Bot Active', tenant?.bot_active?'Active':'Pending Setup', tenant?.bot_active],
+            ['Bot Active', tenant?.bot_status?'Active':'Pending Setup', tenant?.bot_status],
             ['Phone Configured', tenant?.twilio_configured?'Configured':'Pending', tenant?.twilio_configured],
             ['Booking URL', tenant?.booking_url?'Connected':'Not set', !!tenant?.booking_url],
           ].map(([label,value,good])=>(
